@@ -16,7 +16,7 @@ const CREDENTIALS = [
   'API-native platform',
   'Access to our life-, no-life, and micro-insurance licences',
   'Library of Insurance Products',
-  'Guardrisk adminstration partners',
+  // 'Guardrisk adminstration partners',
 ];
 
 export default function Hero() {
