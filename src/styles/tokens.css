@@ -1,0 +1,108 @@
+/* ==========================================================================
+   Guardrisk — Design Tokens
+   --------------------------------------------------------------------------
+   COLOURS: extracted from the live guardrisk.co.za stylesheet + markup
+   (archived snapshot 2026-03-14, since the origin returns 403/520 to
+   non-browser clients). These are the REAL brand values, not placeholders:
+
+     #1863dc  Guardrisk blue      — dominant brand colour across the site
+     #ffaf00  Guardrisk gold      — the site's single highlight/CTA accent
+     #212121  ink                 — heading/body dark
+     #4e4b66  body text
+     #ebebeb  hairline borders
+     #f4f4f4  alternate surface
+     #0056a7  deep blue           — used on the live site for pressed/dark states
+
+   Colours from the WordPress Gutenberg default palette that also appear in
+   the page source (#00d084, #0693e3, #cf2e2e, #7bdcb5, …) were excluded —
+   those are editor defaults, not Guardrisk brand.
+
+   TYPOGRAPHY: deliberately NOT the live site's Open Sans / WordPress theme.
+   Per Marco: retain brand colours, modernise everything else.
+   ========================================================================== */
+
+:root {
+  /* --- Brand --- */
+  --gr-color-primary: #1863dc;
+  --gr-color-primary-dark: #0056a7;
+  /* Dark section ground: hero, compliance band, Diagram C hub, footer.
+     Was a deep navy (#0a2a4f); black per Marco. Name kept stable so swapping
+     the value never touches component code (SPEC §4). */
+  --gr-color-primary-deep: #000000;
+  --gr-color-primary-tint: #eef4fe; /* 6% primary on white — tinted surfaces */
+  --gr-color-primary-tint-2: #dbe8fc;
+
+  --gr-color-accent: #ffaf00;
+  --gr-color-accent-dark: #d99500; /* for hairlines where gold-on-white would be invisible */
+  --gr-color-accent-tint: #fff6e0;
+
+  /* --- Neutrals --- */
+  --gr-color-ink: #212121;
+  --gr-color-body: #4e4b66;
+  --gr-color-muted: #6b7280;
+  --gr-color-border: #ebebeb;
+  --gr-color-border-strong: #d8dbe0;
+  --gr-color-surface: #ffffff;
+  --gr-color-surface-alt: #f4f4f4;
+
+  /* --- Diagram system ---------------------------------------------------
+     One shared "flow" colour across all four diagrams so they read as a
+     single visual system (SPEC §4). Gold is reserved exclusively for the
+     concept being taught — it is a FILL colour only: #ffaf00 on white is
+     1.84:1 and must never carry text or act as a lone hairline.           */
+  --gr-diagram-flow: var(--gr-color-primary);
+  --gr-diagram-node-bg: #ffffff;
+  --gr-diagram-node-border: #d8dbe0;
+  --gr-diagram-node-ink: var(--gr-color-ink);
+  --gr-diagram-node-muted: #6b7280;
+  --gr-diagram-highlight: var(--gr-color-accent);
+  --gr-diagram-grid: #e8eaee;
+  /* Diagram C hub: a light neutral that sits just off the section's
+     surface-alt (#f4f4f4) without competing with it. */
+  --gr-diagram-hub-bg: #e7ecf2;
+  --gr-diagram-hub-border: #cdd7e3;
+
+  /* --- Type --- */
+  --gr-font-display: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --gr-font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --gr-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Fluid type scale — clamp()ed so 360px → 1440px needs no breakpoints */
+  --gr-text-display: clamp(2.25rem, 1.35rem + 4vw, 4.25rem);
+  --gr-text-h2: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+  --gr-text-h3: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+  --gr-text-lead: clamp(1.0625rem, 1rem + 0.45vw, 1.3125rem);
+  --gr-text-body: 1rem;
+  --gr-text-sm: 0.9375rem;
+  --gr-text-xs: 0.8125rem;
+
+  /* --- Scale --- */
+  --gr-space-1: 4px;
+  --gr-space-2: 8px;
+  --gr-space-3: 12px;
+  --gr-space-4: 16px;
+  --gr-space-6: 24px;
+  --gr-space-8: 32px;
+  --gr-space-12: 48px;
+  --gr-space-16: 64px;
+  --gr-space-20: 80px;
+  --gr-space-24: 96px;
+
+  --gr-radius-sm: 6px;
+  --gr-radius-md: 12px;
+  --gr-radius-lg: 20px;
+  --gr-radius-pill: 999px;
+
+  --gr-container: 1200px;
+
+  /* --- Elevation (restrained — this is an infrastructure page) --- */
+  --gr-shadow-sm: 0 1px 2px rgba(16, 21, 26, 0.05);
+  --gr-shadow-md: 0 4px 16px rgba(16, 21, 26, 0.07);
+  --gr-shadow-lg: 0 14px 40px rgba(16, 21, 26, 0.1);
+
+  /* --- Motion --- */
+  --gr-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --gr-duration-fast: 150ms;
+  --gr-duration-base: 300ms;
+  --gr-duration-slow: 600ms;
+}
