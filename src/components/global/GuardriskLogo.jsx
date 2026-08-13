@@ -8,12 +8,18 @@
  * team for the official reversed/white logo, and ideally an SVG — the site
  * currently ships only this raster version.
  *
- * On merge into the Guardrisk WordPress site, swap `LOGO_SRC` for the local
- * upload path (`/wp-content/uploads/2023/02/guardrisk-logo-1200x209-1.png`)
- * rather than fetching it cross-origin.
+ * The asset is served from this project's own `public/` rather than hotlinked
+ * from guardrisk.co.za. It was hotlinked initially, but Cloudflare began
+ * returning 403 for the image, which broke the logo in both the header and the
+ * footer — a cross-origin asset behind a WAF is not a dependency a page should
+ * carry. This copy is byte-identical in dimensions, transparency and colour.
+ *
+ * On merge into the Guardrisk WordPress site, point `LOGO_SRC` at the real
+ * upload path (`/wp-content/uploads/2023/02/guardrisk-logo-1200x209-1.png`),
+ * which will then be same-origin and unaffected.
  */
 
-const LOGO_SRC = 'https://guardrisk.co.za/wp-content/uploads/2023/02/guardrisk-logo-1200x209-1.png';
+const LOGO_SRC = '/guardrisk-logo.png';
 
 export default function GuardriskLogo({ tone = 'dark', alt = 'Guardrisk', className = '' }) {
   return (

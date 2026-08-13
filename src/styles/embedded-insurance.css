@@ -1194,166 +1194,358 @@ svg {
 }
 
 /* --------------------------------------------------------------------------
-   Diagram C — ecosystem roles
+   Diagram C — Embedded insurance value chain
+
+   HTML/CSS rather than SVG (see the component header for why). The palette is
+   mapped onto the existing brand tokens rather than the design's raw hexes, so
+   this diagram stays in the same colour system as the rest of the page.
+
+   Two colours from the supplied design were darkened because they failed WCAG
+   AA as text: the gold kind-label (#B87400, 3.79:1 on white) and the index
+   numeral (#9AA4B2, 2.52:1). They now use --gr-color-accent-text (5.38:1) and
+   --gr-color-muted (4.83:1).
    -------------------------------------------------------------------------- */
 
-/* The shared orbit and the soft field behind it */
-.gr-field {
-  fill: rgba(24, 99, 220, 0.028);
+.gr-vc {
+  margin: 0;
 }
 
-.gr-orbit {
-  fill: none;
-  stroke: var(--gr-color-primary);
-  stroke-width: 1.2;
-  stroke-dasharray: 0.004 0.008;
+.gr-vc__grid {
+  display: grid;
+  grid-template-columns: 1fr 0.62fr 1.12fr 0.62fr 1fr;
+  row-gap: var(--gr-space-8);
+  align-items: stretch;
+}
+
+/* Each partner renders a card plus its connector; `contents` lets both land in
+   their own grid cells while keeping them adjacent in the DOM. */
+.gr-vc__pair {
+  display: contents;
+}
+
+/* --- Entry animation ---------------------------------------------------- */
+
+.gr-vc__hub,
+.gr-vc__card {
   opacity: 0;
-  transition: opacity var(--gr-duration-slow) var(--gr-ease);
+  transform: translateY(12px);
+  transition:
+    opacity var(--gr-duration-slow) var(--gr-ease),
+    transform var(--gr-duration-slow) var(--gr-ease);
+  transition-delay: calc(var(--i, 0) * 110ms);
 }
 
-.is-drawn .gr-orbit {
-  opacity: 0.32;
+.gr-vc.is-drawn .gr-vc__hub,
+.gr-vc.is-drawn .gr-vc__card {
+  opacity: 1;
+  transform: none;
 }
 
-.gr-tie {
-  stroke: var(--gr-diagram-flow);
-  stroke-width: 1.5;
+.gr-vc__link {
   opacity: 0;
+  transition: opacity var(--gr-duration-slow) var(--gr-ease) 220ms;
 }
 
-.is-drawn .gr-tie {
-  opacity: 0.55;
+.gr-vc.is-drawn .gr-vc__link {
+  opacity: 1;
 }
 
-.gr-tie--spine {
-  stroke-width: 1.5;
+/* --- Partner cards ------------------------------------------------------- */
+
+.gr-vc__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gr-space-3);
+  padding: var(--gr-space-6) var(--gr-space-6) var(--gr-space-6);
+  background: #fff;
+  border: 1px solid var(--gr-color-border);
+  border-left: 3px solid var(--gr-color-ink);
+  border-radius: var(--gr-radius-md);
+  box-shadow: var(--gr-shadow-sm);
 }
 
-/* Small anchor where a spoke leaves its card — makes the connection read as
-   deliberate at the card edge. */
-.gr-tie-dot {
-  fill: var(--gr-color-primary);
+/* Guardrisk is the licensed risk carrier — the one structurally different role,
+   so it is the one card carrying the accent. */
+.gr-vc__card--carrier {
+  border-color: var(--gr-color-accent);
+  border-left-color: var(--gr-color-accent);
+  box-shadow: 0 8px 24px rgba(240, 160, 32, 0.16);
 }
 
-.gr-tie-pill rect {
-  fill: #fff;
-  stroke: var(--gr-color-primary-tint-2);
-  stroke-width: 1;
+.gr-vc__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gr-space-3);
 }
 
-.gr-tie-pill text,
-.gr-role__tie-pill text {
+.gr-vc__kind {
   font-family: var(--gr-font-mono);
   font-size: 11px;
-  letter-spacing: 0.04em;
-  fill: var(--gr-color-primary-dark);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gr-color-ink);
 }
 
-.gr-role__tie-pill rect {
-  fill: var(--gr-color-primary-tint);
-  stroke: none;
+.gr-vc__card--carrier .gr-vc__kind {
+  color: var(--gr-color-accent-text);
 }
 
-/* Hub — a light neutral card, not a dark block: it should read as the calm
-   centre everything attaches to, and must not fight the section's own
-   surface-alt background. */
-.gr-hub__box {
-  fill: var(--gr-diagram-hub-bg);
-  stroke: var(--gr-diagram-hub-border);
-  stroke-width: 1.25;
-  filter: drop-shadow(0 10px 24px rgba(16, 21, 26, 0.09));
-}
-
-.gr-hub__bar {
-  fill: var(--gr-color-accent);
-}
-
-.gr-hub__eyebrow {
+.gr-vc__index {
   font-family: var(--gr-font-mono);
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  fill: var(--gr-color-muted);
+  font-size: 11px;
+  color: var(--gr-color-muted);
 }
 
-.gr-hub__title {
-  font-family: var(--gr-font-display);
-  font-size: 17.5px;
-  font-weight: 600;
-  fill: var(--gr-color-ink);
+.gr-vc__name {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-.gr-hub__caption {
-  font-size: 11.5px;
-  fill: var(--gr-color-muted);
-}
-
-/* Role cards */
-.gr-role__box {
-  fill: #fff;
-  stroke: var(--gr-diagram-node-border);
-  stroke-width: 1.25;
-  filter: drop-shadow(0 3px 10px rgba(16, 21, 26, 0.05));
-}
-
-.gr-role__spine {
-  fill: var(--gr-color-primary);
-}
-
-.gr-role__disc {
-  fill: var(--gr-color-primary-tint);
-}
-
-.gr-role__icon {
-  color: var(--gr-color-primary);
-}
-
-.gr-role__name {
-  font-family: var(--gr-font-display);
-  /* 14.5px keeps every party name inside two lines at the card's 21-char
-     budget — 15.5px pushed "administration system" onto a third line. */
-  font-size: 14.5px;
-  font-weight: 600;
-  fill: var(--gr-color-ink);
-}
-
-.gr-role__detail {
-  font-size: 12.5px;
-  fill: var(--gr-diagram-node-muted);
-}
-
-/* The distribution partner is the reader — picked out in gold so a buyer finds
-   themselves in the diagram straight away. Gold is fill-only here; the label
-   text stays ink. */
-.gr-role--partner .gr-role__spine {
-  fill: var(--gr-color-accent);
-}
-
-.gr-role--partner .gr-role__disc {
-  fill: var(--gr-color-accent);
-}
-
-.gr-role--partner .gr-role__icon {
-  color: var(--gr-color-ink);
-}
-
-.gr-role--partner .gr-role__box {
-  stroke: var(--gr-color-accent-dark);
-}
-
-.gr-role-legend {
-  margin-top: var(--gr-space-6);
-}
-
-.gr-role-legend li {
-  padding: var(--gr-space-3) 0;
-  border-top: 1px solid var(--gr-color-border-strong);
+.gr-vc__body {
   font-size: var(--gr-text-sm);
+  line-height: 1.55;
+  color: var(--gr-color-body);
 }
 
-.gr-role-legend strong {
-  display: block;
-  font-family: var(--gr-font-display);
+.gr-vc__meta {
+  margin-top: auto;
+  padding-top: var(--gr-space-3);
+  border-top: 1px solid var(--gr-color-border);
+  font-size: var(--gr-text-xs);
+  line-height: 1.7;
+  color: var(--gr-color-muted);
+}
+
+/* Inline rather than flex so the items reflow as one run of text. The
+   separator is attached to the END of the preceding item with a non-breaking
+   space, so a wrap can never strand a middot at the start of a line. The list
+   stays a real <ul> for screen readers rather than one run-on string. */
+.gr-vc__meta li {
+  display: inline;
+}
+
+.gr-vc__meta li:not(:last-child)::after {
+  content: '\00a0·\00a0';
+  /* Inherits the line's own colour — border-strong (#d8dbe0) was invisible at
+     this size. */
+}
+
+/* --- Connectors ---------------------------------------------------------- */
+
+.gr-vc__link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--gr-space-3);
+  padding: 0 var(--gr-space-4);
+}
+
+.gr-vc__pill {
+  padding: 7px 14px;
+  background: #fff;
+  border: 1px solid var(--gr-color-border-strong);
+  border-radius: var(--gr-radius-pill);
+  font-family: var(--gr-font-mono);
+  font-size: 12px;
+  line-height: 1.2;
   color: var(--gr-color-ink);
+  text-align: center;
+}
+
+.gr-vc__link--gold .gr-vc__pill {
+  background: var(--gr-color-accent-tint);
+  border-color: #f3deb8;
+  color: var(--gr-color-accent-text);
+}
+
+.gr-vc__rule {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--gr-color-border-strong);
+}
+
+.gr-vc__link--gold .gr-vc__rule {
+  background: var(--gr-color-accent);
+}
+
+.gr-vc__arrow {
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-top: 2px solid var(--gr-color-ink);
+  border-right: 2px solid var(--gr-color-ink);
+}
+
+.gr-vc__link--gold .gr-vc__arrow {
+  border-color: var(--gr-color-accent);
+}
+
+/* All four arrows point at the product, whichever side they approach from. */
+.gr-vc__rule--left .gr-vc__arrow {
+  right: 0;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.gr-vc__rule--right .gr-vc__arrow {
+  left: 0;
+  transform: translateY(-50%) rotate(-135deg);
+}
+
+/* --- The product at the centre ------------------------------------------- */
+
+.gr-vc__hub {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gr-space-4);
+  padding: var(--gr-space-8) var(--gr-space-6);
+  background: var(--gr-color-ink);
+  border-radius: var(--gr-radius-lg);
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(14, 27, 44, 0.18);
+}
+
+.gr-vc__hub-bar {
+  width: 46px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--gr-color-accent);
+}
+
+.gr-vc__hub-eyebrow {
+  font-family: var(--gr-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.gr-vc__hub-title {
+  font-size: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.gr-vc__hub-caption {
+  font-size: var(--gr-text-sm);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.gr-vc__hub-facts {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gr-space-2);
+  margin-top: var(--gr-space-2);
+  padding-top: var(--gr-space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.gr-vc__hub-facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--gr-space-3);
+  font-size: var(--gr-text-xs);
+}
+
+.gr-vc__hub-facts dt {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.gr-vc__hub-facts dd {
+  font-family: var(--gr-font-mono);
+  color: var(--gr-color-accent);
+}
+
+/* --- Relationship text --------------------------------------------------- */
+
+/* On wide screens the connector pill shows this, so the in-card copy is hidden
+   visually but kept for assistive tech (the pill itself is aria-hidden). Below
+   the stacking breakpoint the pills go away and this becomes the visible chip. */
+@media (min-width: 1080px) {
+  .gr-vc__rel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 1079px) {
+  .gr-vc__rel {
+    align-self: flex-start;
+    padding: 5px 12px;
+    border-radius: var(--gr-radius-pill);
+    background: var(--gr-color-neutral-tint);
+    font-family: var(--gr-font-mono);
+    font-size: 11px;
+    color: var(--gr-color-ink);
+  }
+
+  .gr-vc__card--carrier .gr-vc__rel {
+    background: var(--gr-color-accent-tint);
+    color: var(--gr-color-accent-text);
+  }
+
+  .gr-vc__rel-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* --- Stacked layout ------------------------------------------------------- */
+
+@media (max-width: 1079px) {
+  /* The connector rules only make sense in the five-column arrangement. */
+  .gr-vc__link {
+    display: none;
+  }
+
+  .gr-vc__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gr-space-4);
+  }
+
+  /* Explicit placement from the component's inline styles has to be undone. */
+  .gr-vc__card,
+  .gr-vc__hub {
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+
+  .gr-vc__hub {
+    grid-column: 1 / -1 !important;
+    align-self: stretch;
+    margin-bottom: var(--gr-space-4);
+  }
+}
+
+@media (max-width: 640px) {
+  .gr-vc__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1600,7 +1792,34 @@ svg {
   color: var(--gr-color-primary);
 }
 
+.gr-case--checkout .gr-case__icon {
+  color: var(--gr-color-ink);
+}
+
+/* The model badge leads the card — it is the distinction the section exists to
+   make. Black for the opt-in model, gold for the built-in one: two filled pills
+   of equal weight, so the pair is told apart before either card is read. */
+.gr-case__model {
+  padding: 6px 14px;
+  border-radius: var(--gr-radius-pill);
+  font-family: var(--gr-font-display);
+  font-size: var(--gr-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.gr-case--checkout .gr-case__model {
+  background: var(--gr-color-ink);
+  color: #fff;
+}
+
+.gr-case--embedded .gr-case__model {
+  background: var(--gr-color-accent);
+  color: var(--gr-color-ink);
+}
+
 .gr-case__sector {
+  margin-top: var(--gr-space-6);
   font-family: var(--gr-font-mono);
   font-size: var(--gr-text-xs);
   letter-spacing: 0.08em;
@@ -1609,7 +1828,7 @@ svg {
 }
 
 .gr-case__title {
-  margin-top: var(--gr-space-6);
+  margin-top: var(--gr-space-2);
   font-size: var(--gr-text-h3);
 }
 
@@ -1646,6 +1865,19 @@ svg {
   font-weight: 600;
 }
 
+/* Light grey rather than black for the basket row — a black fill here would
+   outweigh the gold row it sits opposite and read as the more important of the
+   two models, which is not the point being made. */
+.gr-case--checkout .gr-case__line--addon {
+  background: var(--gr-color-neutral-tint);
+  border-color: var(--gr-color-border-strong);
+}
+
+.gr-case--checkout .gr-case__badge {
+  background: var(--gr-color-ink);
+  color: #fff;
+}
+
 .gr-case__rule {
   flex: 1;
   height: 1px;
@@ -1672,8 +1904,11 @@ svg {
 
 .gr-cta {
   padding-block: var(--gr-space-16);
-  background: var(--gr-color-primary);
-  color: rgba(255, 255, 255, 0.88);
+  background: var(--gr-color-surface-alt);
+  color: var(--gr-color-body);
+  /* Hairline because the section above is white — #f4f4f4 alone is too subtle
+     a step to read as a separate closing band. */
+  border-top: 1px solid var(--gr-color-border);
 }
 
 .gr-cta__inner {
@@ -1686,7 +1921,7 @@ svg {
 
 .gr-cta__title {
   font-size: var(--gr-text-h2);
-  color: #fff;
+  color: var(--gr-color-ink);
   max-width: 20ch;
 }
 
@@ -1703,11 +1938,12 @@ svg {
   gap: var(--gr-space-3);
 }
 
-/* 13px text must clear 4.5:1 — white at 75% over the primary blue does not. */
+/* Body rather than muted: at 13px this needs 4.5:1, and muted (#6b7280) is
+   only 4.40:1 on the light grey ground. */
 .gr-cta__note {
   max-width: 30ch;
   font-size: var(--gr-text-xs);
-  color: rgba(255, 255, 255, 0.94);
+  color: var(--gr-color-body);
 }
 
 /* --------------------------------------------------------------------------

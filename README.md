@@ -61,8 +61,11 @@ legal notice and the licensed-entity names are reproduced word-for-word.
    version. The header uses the asset unmodified.
    Note the logo's gold is `#fbb915`, marginally warmer than the site's `#ffaf00` — left as-is,
    but worth confirming which is canonical.
-5. **Logo is loaded cross-origin** from `guardrisk.co.za`. On merge, point `LOGO_SRC` in
-   `GuardriskLogo.jsx` at the local upload path instead.
+5. **Logo is vendored locally** at `public/guardrisk-logo.png`. It was originally hotlinked
+   from `guardrisk.co.za`, but Cloudflare began returning 403 for the image and broke the logo
+   in both the header and footer. The local copy is identical (1200×209, transparent, same
+   black + `#fcb915`). On merge, point `LOGO_SRC` in `GuardriskLogo.jsx` at the real WordPress
+   upload path, which will be same-origin and unaffected.
 6. **Hero headline** uses SPEC §9's proposed line. The live H1 is "Guardrisk Embedded
    Insurance — Powering the Future of Embedded Insurance" if marketing prefers it.
 7. **Header/footer are stand-ins.** Nav links, footer links and legal text are real, but on

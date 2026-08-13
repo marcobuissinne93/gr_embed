@@ -35,6 +35,9 @@
   --gr-color-accent: #ffaf00;
   --gr-color-accent-dark: #d99500; /* for hairlines where gold-on-white would be invisible */
   --gr-color-accent-tint: #fff6e0;
+  /* Gold that is legible AS TEXT on white/tint (5.38:1). The brand gold itself
+     is 1.84:1 and can only ever be a fill. */
+  --gr-color-accent-text: #8a6400;
 
   /* --- Neutrals --- */
   --gr-color-ink: #212121;
@@ -44,6 +47,7 @@
   --gr-color-border-strong: #d8dbe0;
   --gr-color-surface: #ffffff;
   --gr-color-surface-alt: #f4f4f4;
+  --gr-color-neutral-tint: #eceef1; /* neutral counterpart to primary-tint */
 
   /* --- Diagram system ---------------------------------------------------
      One shared "flow" colour across all four diagrams so they read as a
